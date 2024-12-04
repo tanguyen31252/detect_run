@@ -131,6 +131,16 @@ def image():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def test_video():
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        cv2.imshow("test video", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
 if __name__ == "__main__":
-    video()
+    # video()
     # image()
+    test_video()

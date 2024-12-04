@@ -10,7 +10,7 @@ random.seed(2)
 
 
 class ObjectDetection:
-    def __init__(self, weights_path="object_distance_detection/CodeNapVoNaoMayThangCNTT.pt"):
+    def __init__(self, weights_path="CodeNapVoNaoMayThangCNTT.pt"):
         # Load Network
         self.weights_path = weights_path
 
