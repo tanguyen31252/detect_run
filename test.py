@@ -140,7 +140,39 @@ def test_video():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+def check_versions():
+    try:
+        import pycuda.driver as cuda
+        cuda.init()
+        cuda_version = cuda.get_version()
+        print(f"CUDA Version: {cuda_version}")
+    except ImportError:
+        print("pycuda is not installed or CUDA is not available.")
+
+    try:
+        import tensorflow as tf
+        cudnn_version = tf.sysconfig.get_build_info().get("cudnn_version", "Unavailable")
+        print(f"cuDNN Version: {cudnn_version}")
+    except ImportError:
+        print("TensorFlow is not installed or cuDNN information is unavailable.")
+
+    try:
+        import cv2
+        opencv_version = cv2.__version__
+        print(f"OpenCV Version: {opencv_version}")
+
+        # Check if OpenCV was built with CUDA support
+        if cv2.cuda.getCudaEnabledDeviceCount() > 0:
+            print(f"OpenCV is built with CUDA. Number of CUDA-enabled devices: {cv2.cuda.getCudaEnabledDeviceCount()}")
+            # Print CUDA device info
+            cv2.cuda.printCudaDeviceInfo(0)
+        else:
+            print("OpenCV is not built with CUDA support.")
+    except ImportError:
+        print("OpenCV is not installed.")
+
 if __name__ == "__main__":
     # video()
     # image()
-    test_video()
+    # test_video()
+    check_versions()
