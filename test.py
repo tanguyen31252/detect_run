@@ -5,6 +5,7 @@ import time
 import numpy as np
 from ultralytics import YOLO
 import matplotlib.pyplot as plt
+import sys
 
 # video_path = "D:/train_module/test_video/1.mp4"
 video_path = "videotest.mp4"
@@ -141,6 +142,8 @@ def test_video():
             break
 
 def check_versions():
+    python_version = sys.version
+    print(f"Python Version: {python_version}")
     try:
         import pycuda.driver as cuda
         cuda.init()
