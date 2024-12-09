@@ -178,7 +178,7 @@ def video_pipeline():
     # Pipeline ví dụ với nvvidconv và nvv4l2decoder
     pipeline = (
         "v4l2src device=/dev/video0 ! "
-        "video/x-raw, width=1280, height=720, framerate=30/1 ! "
+        "video/x-raw, width=480, height=640, framerate=30/1 ! "
         "nvvidconv flip-method=0 ! "
         "video/x-raw, format=BGRx ! "
         "videoconvert ! video/x-raw, format=BGR ! "
