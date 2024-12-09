@@ -79,7 +79,7 @@ def video():
         end = time.time()
         if end - start == 0:
             continue
-        # cv2.putText(frame, f"fps: {1/(end - start):.2f}", (100,100),cv2.FONT_HERSHEY_COMPLEX, 2, (255,255,255), 3)
+        cv2.putText(frame, f"fps: {1/(end - start):.2f}", (100,100),cv2.FONT_HERSHEY_COMPLEX, 2, (255,255,255), 3)
         height, width = frame.shape[:2]
         # height, width = height//2, width//2
         for bbox, class_id, score in zip(bboxes, class_ids, scores):
@@ -174,8 +174,39 @@ def check_versions():
     except ImportError:
         print("OpenCV is not installed.")
 
+def video_pipeline():
+    # Pipeline ví dụ với nvvidconv và nvv4l2decoder
+    pipeline = (
+        "v4l2src device=/dev/video0 ! "
+        "video/x-raw, width=1280, height=720, framerate=30/1 ! "
+        "nvvidconv flip-method=0 ! "
+        "video/x-raw, format=BGRx ! "
+        "videoconvert ! video/x-raw, format=BGR ! "
+        "appsink"
+    )
+
+    cap = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
+
+    if not cap.isOpened():
+        print("Failed to open camera.")
+        exit()
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            print("Failed to capture frame")
+            break
+        
+        cv2.imshow("Frame", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
 if __name__ == "__main__":
     # video()
     # image()
     # test_video()
+    video_pipeline()
     check_versions()
